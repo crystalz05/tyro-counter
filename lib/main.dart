@@ -1,21 +1,24 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:tyro_counter/app.dart';
+import 'package:tyro_counter/core/di/injection.dart';
 
 void main() {
-  runApp(const MyApp());
-}
+  runZonedGuarded(
+        () async {
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+      WidgetsFlutterBinding.ensureInitialized();
 
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
+      await configureDependencies();
+
+      runApp(const App());
+    },
+        (error, stack) {
+      if (kDebugMode) {
+        print('Error: $error');
+      }
+    },
+  );
 }
