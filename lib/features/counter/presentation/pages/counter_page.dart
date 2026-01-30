@@ -4,6 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tyro_counter/features/counter/presentation/bloc/counter_bloc.dart';
 import 'package:tyro_counter/features/counter/presentation/bloc/counter_event.dart';
 import 'package:tyro_counter/features/counter/presentation/bloc/counter_state.dart';
+import 'package:tyro_counter/features/theme/presentation/bloc/theme_bloc.dart';
+import 'package:tyro_counter/features/theme/presentation/bloc/theme_event.dart';
+import 'package:tyro_counter/features/theme/presentation/bloc/theme_state.dart';
 
 class CounterPage extends StatelessWidget {
   const CounterPage({super.key});
@@ -11,7 +14,20 @@ class CounterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Counter"),),
+      appBar: AppBar(title: const Text("Counter"),
+        actions: [
+          BlocBuilder<ThemeBloc, ThemeState>(
+              builder: (context, state){
+                return Switch(
+                    value: state.isDark,
+                    onChanged: (_) {
+                      context.read<ThemeBloc>().add(ThemeToggled());
+                    }
+                );
+              }
+          )
+        ],
+      ),
       body: _CounterView(),
     );
   }

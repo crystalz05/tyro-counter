@@ -8,5 +8,4 @@ Future<void> configureDependencies() async {
 
   getIt.registerLazySingleton<AppRouter>(() => AppRouter());
 
-
 }
