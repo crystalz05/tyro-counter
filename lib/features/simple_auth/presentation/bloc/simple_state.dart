@@ -32,3 +32,15 @@ class SimpleState {
     );
   }
 }
+
+class ButtonToggleState {
+  final bool isActive;
+
+  const ButtonToggleState({
+    required this.isActive
+  });
+
+  factory ButtonToggleState.initial() => const ButtonToggleState(isActive: false);
+}
+
+

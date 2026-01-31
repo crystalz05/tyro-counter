@@ -23,8 +23,11 @@ class UsernameScreen extends StatelessWidget {
 class _FormView extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-        create: (_)=> SimpleBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_)=> SimpleBloc()),
+        BlocProvider(create: (_)=> ButtonToggleBloc())
+      ],
         child: _FormContent()
     );
   }
@@ -34,7 +37,7 @@ class _FormContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsetsGeometry.symmetric(horizontal: 24),
+      padding: EdgeInsetsGeometry.symmetric(horizontal: 24, vertical: 50),
       child: Column(
           children:[
             BlocBuilder<SimpleBloc, SimpleState>(
@@ -48,6 +51,27 @@ class _FormContent extends StatelessWidget {
                         errorText: state.status == UsernameStatus.invalid ? state.errorMessage : null,
                         labelText: "Username"
                     ),
+                  );
+                }
+            ),
+
+            SizedBox(height: 24),
+
+            BlocBuilder<ButtonToggleBloc, ButtonToggleState>(
+                builder: (context, state){
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ElevatedButton(
+                          onPressed: state.isActive ? () {} : null,
+                          child: Text("Active"),
+                      ),
+                      Switch(
+                          value: state.isActive,
+                          onChanged: (_) {context.read<ButtonToggleBloc>().add(ButtonActiveEvent(!state.isActive));
+                          }
+                      )
+                    ],
                   );
                 }
             )

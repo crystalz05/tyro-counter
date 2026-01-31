@@ -54,3 +54,14 @@ class SimpleBloc extends Bloc<SimpleEvent, SimpleState> {
     );
   }
 }
+
+class ButtonToggleBloc extends Bloc<ButtonEvent, ButtonToggleState>{
+
+  ButtonToggleBloc(): super(ButtonToggleState.initial()){
+    on<ButtonActiveEvent>(_onButtonActiveEvent);
+  }
+
+  void _onButtonActiveEvent(ButtonActiveEvent event, Emitter<ButtonToggleState> emit){
+    emit(ButtonToggleState(isActive:  event.isActive));
+  }
+}
